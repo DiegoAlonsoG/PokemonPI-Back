@@ -8,7 +8,6 @@ router.get ('/' , async (req,res,next) => {
     try {
 /////////////////// TRAE DE LA API Y LO GUARDA EN POKEAPI ////////////////////
         const pokeApi = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=40')
-        // console.log(pokeApi.data.results)
         const pokeDetail = pokeApi.data.results.map((pkm) => axios.get(pkm.url))
         let pokeApiFinal = await Promise.all(pokeDetail).then((rawUrl) => {
             let pokemon = rawUrl.map((rawDetail) => rawDetail.data)
@@ -28,7 +27,6 @@ router.get ('/' , async (req,res,next) => {
                     createdBy: 'Api'
                 }
             })
-            // console.log(pokeDetMap)
             return pokeDetMap
         })
 
@@ -89,7 +87,6 @@ router.get ('/:id' , async (req,res,next) => {
     try {
         /////////////////// TRAE DE LA API Y LO GUARDA EN POKEAPI ////////////////////
         const pokeApi = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=40')
-        // console.log(pokeApi.data.results)
         const pokeDetail = pokeApi.data.results.map((pkm) => axios.get(pkm.url))
         let pokeApiFinal = await Promise.all(pokeDetail).then((rawUrl) => {
             let pokemon = rawUrl.map((rawDetail) => rawDetail.data)
@@ -109,7 +106,6 @@ router.get ('/:id' , async (req,res,next) => {
                     createdBy: 'Api'
                 }
             })
-            // console.log(pokeDetMap)
             return pokeDetMap
         })
         
@@ -142,24 +138,10 @@ router.get ('/:id' , async (req,res,next) => {
         
         /////////////////////// UNIR LO DE LA API Y LO DE LA BASE ///////////////////////
         const allPoke = [...pokeApiFinal,...pokeBaseFinal]
-        // console.log(allPoke)
         
         //////////////////// LOGICA DE PARAMS ///////////////////////////
         const {id} = req.params
-        // console.log(id)
-        
-            // let pokeFilterByIdNumber = allPoke.filter((consulta) =>
-            //     consulta.id === Number(id)
-            // )
-
         const pokeFilter = allPoke.find((element) => element.id == id)
-
-
-        // let pokeFilterByIdString = allPoke.findById(id)
-        // console.log(pokeFilterByIdString)
-            // if (pokeFilterByIdNumber.length) {
-            //     return res.send(pokeFilterByIdNumber)
-            // }
         if (pokeFilter) {
             return res.send(pokeFilter)
         }
@@ -200,158 +182,3 @@ router.post('/', async (req,res,next)=>{
 });
 
 module.exports = router; 
-
-// router.post ('/' , async (req,res,next) => {
-    //     // res.send('soy post /pokemons')
-    
-    // let typePokemon = await Types.findOne({
-    //     where: {name: types.shift()}
-    // })
-    
-    // if (types.length>0) {
-    //     typePokemon
-    // }
-    
-    // console.log(typePokemon)
-    
-    // await newPokemon.addType(types)
-    
-    // newPokemon.types = types
-    // while (types.length>0) {
-    //     const typePokemon = await Types.findAll(
-    //     { where: {name: types.shift()}}
-    //     )
-    //     console.log(typePokemon)
-    // }
-    // await newPokemon.addType(typePokemon)
-    
-    // for(let i=0;i<types.length;i++){
-    //     // console.log(typePokemon)
-    //     await newPokemon.addType(typePokemon)
-    // }
-    
-    
-    // 	try {
-        // 		const { name, life, attack, defense, speed, height, weight, image, types } = req.body;
-// 		const newPokemon = await Pokemons.create({
-// 			name: name.toLowerCase(),
-// 			life,
-// 			attack,
-// 			defense,
-// 			speed,
-// 			height,
-// 			weight,
-// 			image,
-// 		});
-//         // let typesCreacion = [];
-//         while (types.length > 0) {
-//             let typeDB = await Types.findOne({
-//                 where: {name: types.shift()},
-//                 // raw: true
-//             });
-//             // typesCreacion.push(typeDB)
-//             // console.log(typeDB)
-
-
-//         // const typeDbArr = await Types.findAll({
-//         //     where: { name: types },
-//         //     raw: true
-//         // });
-//         // console.log(typeDbArr)
-
-        
-//             await newPokemon.addTypes(typeDB);
-//         }
-        
-//         // let listTypes = await Promise.all(
-//         //     types.map((elemP) => {
-//         //     // console.log(elemP) 
-//         //         Types.findOne({ 
-//         //             where: { name: elemP },
-//         //             raw: true 
-//         //         })
-//         // })
-//         // )
-//         // newPokemon.setTypes(listTypes);
-
-
-//         // console.log(newPokemon)
-
-//         // const typeDbArr = await Types.findAll({
-//         //     where: { name: types },
-//         //     raw: true
-//         // });
-//         // console.log(typeDbArr)
-//         // let typeNames = [];
-//         // for (let i=0; i<typeDbArr.length; i++) {
-
-//         // }
-//         // const typeDbId = typeDbArr.map((p) => {
-//         // p.name
-//         // })
-//         // console.log(typeDbId)
-//         // await pokemonCreated.addType(typeDbId)
-
-
-// 		res.send(`Pokemon "${name}" creado con exito`);
-// 	} catch (error) {
-// 		next(error);
-// 	}
-// });
-
-// router.post('/:pokemonId/types/:typeId', async(req,res,next) => { 
-//     // linkea ambas tablas y relaciona de muchos a muchos
-//     try {
-//         const {pokemonId,typeId} = req.params;
-//         const pokemon = await Pokemons.findByPk(pokemonId)
-//         await pokemon.addType(typeId)
-//         res.sendStatus(200)
-//     } catch (error) { 
-//         next(error)
-//     }
-// })
-
-// router.put ('/' , (req,res,next) => {
-//     res.send('soy put /pokemons')
-// })
-
-// router.delete ('/' , (req,res,next) => {
-//     res.send('soy delete /pokemons')
-// })
-
-////////////////////// ANTIGUA LOGICA DE GET DATABASE //////////////////
-
-// let pokeBase = await Pokemons.findAll({
-        //         include:
-        //             {
-        //             model:Types, 
-        //             attributes: ["name"]
-        //             },
-        //         raw: true
-        //     })
-        // console.log(pokeBase)
-        // const pokeBaseFinal = pokeBase.map((elem) => {
-        //     // console.log(elem)
-        //     // const typesFinal = elem["types.name"].map((t) => {
-        //     //     return t
-        //     // })
-        //     let typesArr = [];
-        //     for (let i=0; i<pokeBase.length;i++) {
-        //         typesArr.push(pokeBase[i]["types.name"])
-        //     }
-        //     let typesArrFin = [];
-        //     typesArrFin.push({elem.name: hola})
-        //     // console.log(typesArr)
-        //     return {
-        //     name: elem.name,
-        //     life: elem.life,
-        //     attack: elem.attack,
-        //     defense: elem.defense,
-        //     speed: elem.speed,
-        //     height: elem.height,
-        //     weight: elem.weight,
-        //     types: typesArr,
-        //     image: elem.image
-        //     }
-        // })
-        // console.log(pokeBase);
