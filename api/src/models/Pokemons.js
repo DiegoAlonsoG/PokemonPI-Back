@@ -35,9 +35,12 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    image: {
+    imageRegular: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    imageShiny: {
+      type: DataTypes.STRING,
     },
     created: {
       type: DataTypes.BOOLEAN,

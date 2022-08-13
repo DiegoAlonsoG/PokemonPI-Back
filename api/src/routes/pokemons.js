@@ -7,7 +7,7 @@ const router = Router();
 router.get ('/' , async (req,res,next) => {
     try {
 /////////////////// TRAE DE LA API Y LO GUARDA EN POKEAPI ////////////////////
-        const pokeApi = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=40')
+        const pokeApi = await axios.get('http://pokeapi.co/api/v2/pokemon?limit=40')
         const pokeDetail = pokeApi.data.results.map((pkm) => axios.get(pkm.url))
         let pokeApiFinal = await Promise.all(pokeDetail).then((rawUrl) => {
             let pokemon = rawUrl.map((rawDetail) => rawDetail.data)
@@ -22,7 +22,8 @@ router.get ('/' , async (req,res,next) => {
                     height: details.height,
                     weight: details.weight,
                     types: details.types.map((t) => t.type.name),
-                    image: details.sprites.front_default,
+                    imageRegular: details.sprites.front_default,
+                    imageShiny: details.sprites.front_shiny,
                     created: false,
                     createdBy: 'Api'
                 }
@@ -51,7 +52,8 @@ router.get ('/' , async (req,res,next) => {
                 height: elem.height,
                 weight: elem.weight,
                 types: elem.types.map((obj) => obj.name),
-                image: elem.image,
+                imageRegular: elem.image,
+                imageShiny: elem.image,
                 created: elem.created,
                 createdBy: elem.createdBy
             }
@@ -86,7 +88,7 @@ router.get ('/' , async (req,res,next) => {
 router.get ('/:id' , async (req,res,next) => {
     try {
         /////////////////// TRAE DE LA API Y LO GUARDA EN POKEAPI ////////////////////
-        const pokeApi = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=40')
+        const pokeApi = await axios.get('http://pokeapi.co/api/v2/pokemon?limit=40')
         const pokeDetail = pokeApi.data.results.map((pkm) => axios.get(pkm.url))
         let pokeApiFinal = await Promise.all(pokeDetail).then((rawUrl) => {
             let pokemon = rawUrl.map((rawDetail) => rawDetail.data)
@@ -101,7 +103,8 @@ router.get ('/:id' , async (req,res,next) => {
                     height: details.height,
                     weight: details.weight,
                     types: details.types.map((t) => t.type.name),
-                    image: details.sprites.front_default,
+                    imageRegular: details.sprites.front_default,
+                    imageShiny: details.sprites.front_shiny,
                     created: false,
                     createdBy: 'Api'
                 }
@@ -130,7 +133,8 @@ router.get ('/:id' , async (req,res,next) => {
                 height: elem.height,
                 weight: elem.weight,
                 types: elem.types.map((obj) => obj.name),
-                image: elem.image,
+                imageRegular: elem.image,
+                imageShiny: elem.image,
                 created: elem.created,
                 createdBy: elem.createdBy
             }
